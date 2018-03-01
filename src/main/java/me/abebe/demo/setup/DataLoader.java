@@ -1,7 +1,13 @@
-package me.abebe.demo;
+package me.abebe.demo.setup;
 
 import me.abebe.demo.model.AppRole;
 import me.abebe.demo.model.AppUser;
+import me.abebe.demo.model.LostCategory;
+import me.abebe.demo.model.LostItems;
+import me.abebe.demo.repo.AppRoleRepository;
+import me.abebe.demo.repo.AppUserRepository;
+import me.abebe.demo.repo.LostCategoryRepository;
+import me.abebe.demo.repo.LostItemsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -14,6 +20,12 @@ public class DataLoader implements CommandLineRunner {
     AppUserRepository userRepository;
     @Autowired
     AppRoleRepository roleRepository;
+
+    @Autowired
+    LostCategoryRepository lostCategoryRepository;
+
+    @Autowired
+    LostItemsRepository lostItemsRepository;
     @Override
     public void run(String... args) throws Exception {
 
@@ -25,6 +37,19 @@ public class DataLoader implements CommandLineRunner {
             role.setRoleName("ADMIN");
             roleRepository.save(role);
 
+
+        LostCategory lostCategory = new LostCategory();
+        lostCategory.setCategoryName("Clothes");
+        lostCategoryRepository.save(lostCategory);
+
+
+        lostCategory = new LostCategory();
+        lostCategory.setCategoryName("Pets ");
+        lostCategoryRepository.save(lostCategory);
+
+        lostCategory = new LostCategory();
+        lostCategory.setCategoryName("other");
+        lostCategoryRepository.save(lostCategory);
 
         AppUser user = new AppUser();
         user.setFirstName("user");
@@ -46,6 +71,16 @@ public class DataLoader implements CommandLineRunner {
         user.setUsername("admin");
         user.addRole(roleRepository.findAppRoleByRoleName("ADMIN"));
         userRepository.save(user);
+
+        LostItems lostItems = new LostItems();
+        lostItems.setTitle("wearable");
+        lostItems.setDesc("red color");
+        lostItems.setImage("image");
+        lostItems.addCategory(lostCategoryRepository.findByCategoryName("Clothes"));
+        lostItems.addUser(userRepository.findByUsername("USER"));
+        lostItemsRepository.save(lostItems);
+
+
 
     }
 

@@ -39,15 +39,19 @@ public class AppUser {
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<AppRole> roles;
 
+    @ManyToMany(mappedBy = "users")
+    private Set<LostItems> lostItems;
 
     public AppUser() {
         this.roles = new HashSet<>();
+        this.lostItems = new HashSet<>();
     }
 
     public void addRole(AppRole role)
     {
         this.roles.add(role);
     }
+
     @Override
     public String toString() {
         return "AppUser{" +
@@ -57,11 +61,12 @@ public class AppUser {
                 ", email='" + email + '\'' +
                 ", image='" + image + '\'' +
                 ", password='" + password + '\'' +
+                ", username='" + username + '\'' +
                 ", createdAt=" + createdAt +
                 ", roles=" + roles +
+                ", lostItems=" + lostItems +
                 '}';
     }
-
 
     public long getId() {
         return id;
@@ -133,5 +138,13 @@ public class AppUser {
 
     public void setRoles(Set<AppRole> roles) {
         this.roles = roles;
+    }
+
+    public Set<LostItems> getLostItems() {
+        return lostItems;
+    }
+
+    public void setLostItems(Set<LostItems> lostItems) {
+        this.lostItems = lostItems;
     }
 }

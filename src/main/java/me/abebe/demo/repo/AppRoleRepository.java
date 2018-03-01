@@ -1,4 +1,4 @@
-package me.abebe.demo;
+package me.abebe.demo.repo;
 
 import me.abebe.demo.model.AppRole;
 import org.springframework.data.repository.CrudRepository;
