@@ -12,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import javax.transaction.Transactional;
-
 @Component
 public class DataLoader implements CommandLineRunner {
     @Autowired
@@ -76,6 +74,7 @@ public class DataLoader implements CommandLineRunner {
         lostItems.setTitle("wearable");
         lostItems.setDesc("red color");
         lostItems.setImage("image");
+        lostItems.setItemStatus("lost");
         lostItems.addCategory(lostCategoryRepository.findByCategoryName("Clothes"));
         lostItems.addUser(userRepository.findByUsername("USER"));
         lostItemsRepository.save(lostItems);

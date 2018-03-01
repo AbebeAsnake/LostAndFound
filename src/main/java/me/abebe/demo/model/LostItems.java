@@ -23,6 +23,9 @@ public class LostItems {
     @Column(name = "image")
     private String image;
 
+    @Column( name ="item_status")
+    private String itemStatus;
+
     @CreationTimestamp
     @Column(name = "time_stamp")
     Timestamp createdAt;
@@ -115,5 +118,13 @@ public class LostItems {
 
     public void setLostCategories(Set<LostCategory> lostCategories) {
         this.lostCategories = lostCategories;
+    }
+
+    public String getItemStatus() {
+        return itemStatus;
+    }
+
+    public void setItemStatus(String itemStatus) {
+        this.itemStatus = itemStatus;
     }
 }

@@ -70,4 +70,6 @@ public class LostCategory {
     public void setLostItems(Set<LostItems> lostItems) {
         this.lostItems = lostItems;
     }
+
+
 }
