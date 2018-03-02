@@ -1,17 +1,16 @@
 package me.abebe.demo.controller;
 
-import me.abebe.demo.model.AppUser;
 import me.abebe.demo.model.LostItems;
 import me.abebe.demo.repo.AppRoleRepository;
 import me.abebe.demo.repo.AppUserRepository;
 import me.abebe.demo.repo.LostCategoryRepository;
 import me.abebe.demo.repo.LostItemsRepository;
-import org.springframework.security.core.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class LostController {
@@ -34,10 +33,10 @@ public class LostController {
         System.out.println(lostCategoryRepository.findByCategoryName("other"));
         return "addlost";
     }
-    @RequestMapping("/additems")
+    @PostMapping("/additems")
     public String addItems(Authentication auth,Model model){
         LostItems lost = new LostItems();
-        lost.addUser(userRepository.findByUsername(auth.getName()));
+        lost.setUsers(userRepository.findAppUserByUsername(auth.getName()));
         lostItemsRepository.save(lost);
 
         return "redirect:/";

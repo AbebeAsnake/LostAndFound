@@ -26,7 +26,7 @@ public class DataLoader implements CommandLineRunner {
     LostItemsRepository lostItemsRepository;
     @Override
     public void run(String... args) throws Exception {
-
+//load user and role
         AppRole role = new AppRole();
         role.setRoleName("USER");
         roleRepository.save(role);
@@ -35,23 +35,9 @@ public class DataLoader implements CommandLineRunner {
             role.setRoleName("ADMIN");
             roleRepository.save(role);
 
-
-        LostCategory lostCategory = new LostCategory();
-        lostCategory.setCategoryName("Clothes");
-        lostCategoryRepository.save(lostCategory);
-
-
-        lostCategory = new LostCategory();
-        lostCategory.setCategoryName("Pets ");
-        lostCategoryRepository.save(lostCategory);
-
-        lostCategory = new LostCategory();
-        lostCategory.setCategoryName("other");
-        lostCategoryRepository.save(lostCategory);
-
         AppUser user = new AppUser();
         user.setFirstName("user");
-        user.setFirstName("lastName");
+        user.setLastName("lastName");
         user.setEmail("user@email.com");
         user.setImage("http://www.nurseryrhymes.org/nursery-rhymes-styles/images/john-jacob-jingleheimer-schmidt.jpg");
         user.setPassword("pass");
@@ -59,25 +45,77 @@ public class DataLoader implements CommandLineRunner {
         user.addRole(roleRepository.findAppRoleByRoleName("USER"));
         userRepository.save(user);
 
+        AppUser admin = new AppUser();
+        admin.setFirstName("admin");
+        admin.setLastName("admin");
+        admin.setEmail("admin@email.com");
+        admin.setImage("http://www.nurseryrhymes.org/nursery-rhymes-styles/images/john-jacob-jingleheimer-schmidt.jpg");
+        admin.setPassword("pass");
+        admin.setUsername("admin");
+        admin.addRole(roleRepository.findAppRoleByRoleName("ADMIN"));
+        userRepository.save(admin);
 
-        user = new AppUser();
-        user.setFirstName("admin");
-        user.setFirstName("lastName");
-        user.setEmail("admin@email.com");
-        user.setImage("http://www.nurseryrhymes.org/nursery-rhymes-styles/images/john-jacob-jingleheimer-schmidt.jpg");
-        user.setPassword("pass");
-        user.setUsername("admin");
-        user.addRole(roleRepository.findAppRoleByRoleName("ADMIN"));
-        userRepository.save(user);
+        //load category
+        LostCategory lostCategory1 = new LostCategory();
+        lostCategory1.setCategoryName("Clothes");
+        lostCategoryRepository.save(lostCategory1);
 
-        LostItems lostItems = new LostItems();
-        lostItems.setTitle("wearable");
-        lostItems.setDesc("red color");
-        lostItems.setImage("image");
-        lostItems.setItemStatus("lost");
-        lostItems.addCategory(lostCategoryRepository.findByCategoryName("Clothes"));
-        lostItems.addUser(userRepository.findByUsername("USER"));
-        lostItemsRepository.save(lostItems);
+        LostCategory category2 = new LostCategory();
+        category2.setCategoryName("Pet");
+        lostCategoryRepository.save(category2);
+
+
+        LostCategory category3 = new LostCategory();
+        category3.setCategoryName("Other");
+        lostCategoryRepository.save(category3);
+
+        //load lost items
+        //1
+        LostItems lostItems1 = new LostItems();
+        lostItems1.setTitle("jacket");
+        lostItems1.setDesc("red color");
+        lostItems1.setImage("image");
+        lostItems1.setItemStatus("lost");
+
+        lostItems1.setLostCategories(category2);
+        lostItemsRepository.save(lostItems1);
+
+        category2.addLostItems(lostItems1);
+        lostCategoryRepository.save(category2);
+        lostItems1.setUsers(user);
+        lostItemsRepository.save(lostItems1);
+
+
+///2
+        LostItems lostItems2 = new LostItems();
+        lostItems2.setTitle("fluffy");
+        lostItems2.setDesc("brown");
+        lostItems2.setImage("image");
+        lostItems2.setItemStatus("lost in restaurant");
+
+        lostItems2.setLostCategories(category2);
+        lostItemsRepository.save(lostItems2);
+
+        category2.addLostItems(lostItems2);
+        lostCategoryRepository.save(category2);
+        lostItems2.setUsers(user);
+        lostItemsRepository.save(lostItems2);
+
+
+//3
+         LostItems lostItems3 = new LostItems();
+        lostItems3.setTitle("other thing");
+        lostItems3.setDesc("unknown color");
+        lostItems3.setImage("image");
+        lostItems3.setItemStatus("lost");
+
+        lostItems3.setLostCategories(category3);
+        lostItemsRepository.save(lostItems3);
+
+        category3.addLostItems(lostItems3);
+        lostCategoryRepository.save(category3);
+        lostItems3.setUsers(user);
+        lostItemsRepository.save(lostItems3);
 
 
 

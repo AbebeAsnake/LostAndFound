@@ -4,8 +4,6 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "lost_items")
@@ -17,44 +15,54 @@ public class LostItems {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "description")
+   @Column(name = "description")
     private String desc;
-
-    @Column(name = "image")
-    private String image;
-
-    @Column( name ="item_status")
     private String itemStatus;
 
     @CreationTimestamp
     @Column(name = "time_stamp")
     Timestamp createdAt;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<AppUser> users;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id", nullable = true)
+    private AppUser users;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<LostCategory> lostCategories;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "category_id", nullable = true)
+    private LostCategory lostCategories;
+
+    //@Column(name = "image")
+    private String image;
+
+    public LostItems(String title, String desc, String image, String itemStatus, Timestamp createdAt) {
+        this.title = title;
+        this.desc = desc;
+        this.image = image;
+        this.itemStatus = itemStatus;
+        this.createdAt = createdAt;
+        this.users = users;
+        this.lostCategories = lostCategories;
+    }
+
+    public LostItems(String title, String desc, String image, String itemStatus, Timestamp createdAt, AppUser users, LostCategory lostCategories) {
+        this.title = title;
+        this.desc = desc;
+        this.image = image;
+        this.itemStatus = itemStatus;
+        this.createdAt = createdAt;
+        this.users = users;
+        this.lostCategories = lostCategories;
+    }
+
+    // @Column( name ="item_status")
+
 
     public LostItems() {
-        this.users = new HashSet<>();
-        this.lostCategories = new HashSet<>();
-
-    }
-
-    public void addCategory(LostCategory category)
-    {
-        this.lostCategories.add(category);
-    }
-    public void addUser(AppUser user)
-    {
-        this.users.add(user);
     }
 
     @Override
     public String toString() {
         return "LostItems{" +
-                "id=" + id +
                 ", title='" + title + '\'' +
                 ", desc='" + desc + '\'' +
                 ", createdAt=" + createdAt +
@@ -96,11 +104,11 @@ public class LostItems {
         this.createdAt = createdAt;
     }
 
-    public Set<AppUser> getUsers() {
+    public AppUser getUsers() {
         return users;
     }
 
-    public void setUsers(Set<AppUser> users) {
+    public void setUsers(AppUser users) {
         this.users = users;
     }
 
@@ -112,11 +120,11 @@ public class LostItems {
         this.image = image;
     }
 
-    public Set<LostCategory> getLostCategories() {
+    public LostCategory getLostCategories() {
         return lostCategories;
     }
 
-    public void setLostCategories(Set<LostCategory> lostCategories) {
+    public void setLostCategories(LostCategory lostCategories) {
         this.lostCategories = lostCategories;
     }
 

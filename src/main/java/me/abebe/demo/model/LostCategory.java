@@ -21,14 +21,28 @@ public class LostCategory {
     @Column(name = "Time_stamp")
     Timestamp createdAt;
 
-    @ManyToMany(mappedBy = "lostCategories")
+    @OneToMany(mappedBy = "lostCategories")
     private Set<LostItems> lostItems;
+
+    public LostCategory(String categoryName, Timestamp createdAt, Set<LostItems> lostItems) {
+        this.categoryName = categoryName;
+        this.createdAt = createdAt;
+        this.lostItems = lostItems;
+    }
 
     public LostCategory() {
         this.lostItems = new HashSet<>();
     }
 
+    public LostCategory(String categoryName) {
+        this.categoryName = categoryName;
+        this.createdAt = createdAt;
+        this.lostItems = lostItems;
+    }
 
+    public void addLostItems(LostItems lost){
+        lostItems.add(lost);
+    }
     @Override
     public String toString() {
         return "LostCategory{" +

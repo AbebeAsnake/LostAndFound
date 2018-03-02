@@ -32,25 +32,42 @@ public class AppUser {
     @Column(name = "username")
     private String username;
 
-    @Column(name ="time_stamp")
+
     @CreationTimestamp
+    @Column(name ="time_stamp")
     Timestamp createdAt;
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(joinColumns=@JoinColumn(name = "user_id"),
+            inverseJoinColumns=@JoinColumn(name="role_id"))
     private Set<AppRole> roles;
 
-    @ManyToMany(mappedBy = "users")
+    @OneToMany(mappedBy = "users")
     private Set<LostItems> lostItems;
 
     public AppUser() {
         this.roles = new HashSet<>();
         this.lostItems = new HashSet<>();
     }
+    public void addLostItems(LostItems lost){
+        lostItems.add(lost);
+    }
 
     public void addRole(AppRole role)
     {
         this.roles.add(role);
     }
+
+    public AppUser(String firstName, String lastName, String email, String image, String password, String username, Timestamp createdAt) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.image = image;
+        this.password = password;
+        this.username = username;
+        this.createdAt = createdAt;
+    }
+
 
     @Override
     public String toString() {

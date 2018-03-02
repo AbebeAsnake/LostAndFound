@@ -25,7 +25,7 @@ public class SSUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         try {
             Set <GrantedAuthority> userAuthorities = new HashSet<>();
-            AppUser user = userRepo.findByUsername(username);
+            AppUser user = userRepo.findAppUserByUsername(username);
             if (user == null) {
                 throw new UsernameNotFoundException("user not found");
             }
