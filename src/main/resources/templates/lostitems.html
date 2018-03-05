@@ -21,11 +21,12 @@
         <th>repoted by</th>
         <th>Category</th>
         <th></th>
+        <th></th>
     </tr>
     </thead>
     <tbody th:each="lost : ${losts}">
     <tr >
-        <input type="hidden" th:text="${lost.id}"/>
+
         <td th:text="${lost.title}"><strong></strong></td>
         <td th:text="${lost.desc}"></td>
 
@@ -42,12 +43,9 @@
             <p th:text="${cat.categoryName}"></p>
           </span>
         </td>
-        <td> <form th:action="@{/found}" th:object="${found}" method="post">
-
-            <input type="submit" name="foundid" value="Found"></form></td>
+        <td><a th:href="@{/found/{id}(id=${lost.id})}">found</a></td>
+        <td><a th:href="@{/delete/{id}(id=${lost.id})}">delete</a></td>
     </tr>
-
-
     </tbody>
 </table>
 </body>

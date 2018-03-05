@@ -16,16 +16,11 @@
             <a th:href="@{/listlost}" class="link">List of items</a>
         </li>
         <li>
-            <a href="javascript:void(0)" class="link">Contact</a>
+            <a href="javascript:void(0)" class="link">Search</a>
         </li>
-        <li>
-            <a href="javascript:void(0)" class="link">News</a>
-        </li>
-        <li>
-            <a href="javascript:void(0)" class="link">Photos</a>
-        </li>
-        <li>
-            <a href="javascript:void(0)" class="link">Videos</a>
+
+        <li class="nav-item">
+            <a th:href="@{/logout?logout}" class="nav-link js-scroll-trigger" sec:authorize="isAuthenticated()">Log Out</a>
         </li>
     </ul>
 </nav>

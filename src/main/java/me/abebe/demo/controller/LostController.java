@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,14 +31,25 @@ public class LostController {
 
     @Autowired
     LostItemsRepository lostItemsRepository;
-@RequestMapping("/found")
-public String dound(@ModelAttribute("losts") LostItems lost ,HttpServletRequest request , Model model){
-    String found = request.getParameter("foundid");
-//    model.addAttribute("losts",lostItemsRepository.findOne(new Long(request.getParameter("foundid"))));
-    //lost.setItemStatus(lostItemsRepository.findOne(new Long(request.getParameter("found"))));
+
+@GetMapping("/found/{id}")
+public String editLost(@PathVariable("id") long id, Model model, Authentication auth) {
+    LostItems lost = lostItemsRepository.findOne(new Long(id));
+
+    lost.setItemStatus("found");
     lostItemsRepository.save(lost);
     return "redirect:/listlost";
+
 }
+
+    @GetMapping("/delete/{id}")
+    public String deleteLost(@PathVariable("id") long id, Model model, Authentication auth) {
+        LostItems lost = lostItemsRepository.findOne(new Long(id));
+        lostItemsRepository.delete(lost);
+        return "redirect:/listlost";
+
+    }
+
     @GetMapping("/listlost")
     public String listlost(Model model, Authentication auth){
         model.addAttribute("losts", lostItemsRepository.findAll());
