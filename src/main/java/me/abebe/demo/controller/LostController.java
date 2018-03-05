@@ -57,6 +57,16 @@ public String editLost(@PathVariable("id") long id, Model model, Authentication 
         model.addAttribute("category", lostCategoryRepository.findAll());
         return "lostitems";
     }
+
+    @GetMapping("/myitems")
+    public String lisMyItems(Model model, Authentication auth, HttpServletRequest request){
+        AppUser currentUser =  userRepository.findAppUserByUsername(auth.getName());
+    Iterable<LostItems> losts = lostItemsRepository.findByUsers(currentUser);
+    model.addAttribute("losts", losts);
+        model.addAttribute("users", userRepository.findAppUserByUsername(auth.getName()));
+        model.addAttribute("category", lostCategoryRepository.findAll());
+        return "myitems";
+    }
     @GetMapping("/additems")
     public String showForm(Model model){
 
