@@ -12,5 +12,7 @@ public interface LostItemsRepository extends CrudRepository<LostItems , Long> {
   Iterable<LostItems> findByUsers(AppUser users);
    Iterable<LostItems> findByLostCategories(String category);
    Iterable<LostItems> findByTitle(String sitle);
+   Iterable<LostItems> findAllByTitleContaining( String title);
+   Iterable<LostItems> findAllByLostCategories(String category);
 
 }

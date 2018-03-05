@@ -45,7 +45,8 @@ public class SecurityConfiguration  extends WebSecurityConfigurerAdapter {
             "/search",
             "/css/**",
             "/templates/**",
-            "/js/**"
+            "/js/**",
+            "/listlost"
 
 
 
@@ -58,7 +59,7 @@ public class SecurityConfiguration  extends WebSecurityConfigurerAdapter {
 //                .permitall: dont need access pages everyone one can acees this route example:register
                 .antMatchers(PUBLIC_MATCHERS).permitAll()
 //                .access("hasAuthority('ROLE_USER') or hasAuthority('ROLE_ADMIN')")
-                .antMatchers("/admin","/additems","/listlost","/myitems").access("hasAuthority('USER')")
+                .antMatchers("/admin","/additems","/myitems").access("hasAuthority('USER') or hasAuthority('ADMIN')" )
                 .anyRequest()
                 .authenticated()
                 .and()

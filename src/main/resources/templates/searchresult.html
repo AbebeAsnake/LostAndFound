@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Add Course</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="/css/navbar.css" type="text/css"/>
+</head>
+<body>
+<div th:replace="base :: navbar"></div>
+
+<!--nav bar and css components-->
+<div class="container">
+    <h1 class="text-center">Lost Items Search Results</h1>
+    <div class="col-md-8 col-md-offset-4">
+        <div th:if="${search}!=null" th:inline="text">You searched for [[${search}]]</div>
+        <table th:if="${itemserach}" class="table">
+
+            <thead>
+            <tr>
+                <th>Item Name</th>
+                <th>Item Description</th>
+                <th>Date registered Price</th>
+
+            </tr>
+
+            </thead>
+            <tbody>
+
+
+            <tr th:each="item :${itemserach}">
+                <td th:text="${item.title}">Item Name</td>
+                <td th:text="${item.desc}">Item Description</td>
+                <td th:text="${item.createdAt}">Date </td>
+                <td th:text="${item.itemStatus}">Status</td>
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</div>
+
+</body>
+</html>

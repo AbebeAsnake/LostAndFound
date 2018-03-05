@@ -91,7 +91,7 @@ public class DataLoader implements CommandLineRunner {
         lostItems2.setTitle("fluffy");
         lostItems2.setDesc("brown");
         lostItems2.setImage("image");
-        lostItems2.setItemStatus("lost in restaurant");
+        lostItems2.setItemStatus("lost");
 
         lostItems2.setLostCategories(category2);
         lostItemsRepository.save(lostItems2);

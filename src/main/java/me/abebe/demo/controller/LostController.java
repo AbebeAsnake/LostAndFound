@@ -18,6 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Controller
 public class LostController {
@@ -35,10 +39,14 @@ public class LostController {
 @GetMapping("/found/{id}")
 public String editLost(@PathVariable("id") long id, Model model, Authentication auth) {
     LostItems lost = lostItemsRepository.findOne(new Long(id));
-
+String status = lost.getItemStatus();
+if(status.equalsIgnoreCase("found")){
+    lost.setItemStatus("lost");
+}
+else
     lost.setItemStatus("found");
-    lostItemsRepository.save(lost);
-    return "redirect:/listlost";
+lostItemsRepository.save(lost);
+return "redirect:/listlost";
 
 }
 
@@ -53,7 +61,10 @@ public String editLost(@PathVariable("id") long id, Model model, Authentication 
     @GetMapping("/listlost")
     public String listlost(Model model, Authentication auth){
         model.addAttribute("losts", lostItemsRepository.findAll());
-        model.addAttribute("users", userRepository.findAppUserByUsername(auth.getName()));
+
+
+        //model.addAttribute("users", userRepository.findAppUserByUsername(auth.getName()));
+
         model.addAttribute("category", lostCategoryRepository.findAll());
         return "lostitems";
     }
@@ -64,6 +75,7 @@ public String editLost(@PathVariable("id") long id, Model model, Authentication 
     Iterable<LostItems> losts = lostItemsRepository.findByUsers(currentUser);
     model.addAttribute("losts", losts);
         model.addAttribute("users", userRepository.findAppUserByUsername(auth.getName()));
+
         model.addAttribute("category", lostCategoryRepository.findAll());
         return "myitems";
     }
@@ -72,6 +84,7 @@ public String editLost(@PathVariable("id") long id, Model model, Authentication 
 
         model.addAttribute("category", lostCategoryRepository.findAll());
         model.addAttribute("losts", new LostItems());
+        model.addAttribute("userss", userRepository.findAll());
 
         return "addlost";
     }
@@ -80,7 +93,9 @@ public String editLost(@PathVariable("id") long id, Model model, Authentication 
         if(result.hasErrors()){
             return "additems";
                     }
-        lost.setUsers(userRepository.findAppUserByUsername(auth.getName()));
+       String users = request.getParameter("users");
+
+       lost.setUsers(userRepository.findAppUserByUsername(auth.getName()));
         lost.setItemStatus("lost");
         lostItemsRepository.save(lost);
 

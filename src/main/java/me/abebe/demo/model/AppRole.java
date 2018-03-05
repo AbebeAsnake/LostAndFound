@@ -1,6 +1,7 @@
 package me.abebe.demo.model;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -13,7 +14,6 @@ public class AppRole {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-
     @Column(name = "role_name",unique = true)
     private String roleName;
 
