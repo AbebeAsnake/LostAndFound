@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/navbar.css" type="text/css"/>
+</head>
+<body>
+<div th:fragment="navbar">
+<nav id="navigationBar">
+    <ul>
+        <li>
+            <a th:href="@{/additems}" class="link">register lost Items</a>
+        </li>
+        <li>
+            <a th:href="@{/listlost}" class="link">List of items</a>
+        </li>
+        <li>
+            <a href="javascript:void(0)" class="link">Contact</a>
+        </li>
+        <li>
+            <a href="javascript:void(0)" class="link">News</a>
+        </li>
+        <li>
+            <a href="javascript:void(0)" class="link">Photos</a>
+        </li>
+        <li>
+            <a href="javascript:void(0)" class="link">Videos</a>
+        </li>
+    </ul>
+</nav>
+</div>
+</body>
+</html>
