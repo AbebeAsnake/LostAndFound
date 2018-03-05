@@ -8,14 +8,8 @@ import me.abebe.demo.repo.LostItemsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-import java.util.Arrays;
 
 @Controller
 public class HomeController {
@@ -27,7 +21,11 @@ public class HomeController {
     LostItemsRepository lostItemsRepository;
     @Autowired
     LostCategoryRepository lostCategoryRepository;
-
+@RequestMapping("/login")
+public String login(Model model){
+    model.addAttribute("users", new AppUser());
+    return "registeruser";
+}
     @RequestMapping("/")
     public String indexpage(Model model){
         model.addAttribute("users", new AppUser());
