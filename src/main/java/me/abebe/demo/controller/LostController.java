@@ -38,6 +38,7 @@ public class LostController {
 
 @GetMapping("/found/{id}")
 public String editLost(@PathVariable("id") long id, Model model, Authentication auth) {
+    AppUser user = userRepository.findAppUserByUsername(auth.getName());
     LostItems lost = lostItemsRepository.findOne(new Long(id));
 String status = lost.getItemStatus();
 if(status.equalsIgnoreCase("found")){

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security4">
-<head>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.tymeleaf.org/thymeleaf-extras-springsecurity4"><head>
     <meta charset="UTF-8"/>
     <title>Title</title>
     <link rel="stylesheet" href="/css/listlost.css" type="text/css"/>
@@ -15,49 +14,40 @@
 <table>
     <thead>
     <tr>
-        <th>Title</th>
+        <th sec:authorize="hasAuthority('ADMIN')" >Title</th>
         <th>Description</th>
 
         <th>Date reported</th>
 
-        <th>status</th>
-        <th>repoted by</th>
-        <th>Category</th>
-        <th></th>
-        <th></th>
+        <th sec:authorize="hasAuthority('ADMIN')">status</th>
+        <th sec:authorize="hasAuthority('ADMIN')">repoted by</th>
+        <th sec:authorize="isAuthenticated()">Category</th>
+        <th ></th>
+        <th sec:authorize="hasAuthority('ADMIN')"></th>
     </tr>
     </thead>
     <tbody th:each="lost : ${losts}">
     <tr >
 
-        <td th:text="${lost.title}"><strong></strong></td>
+        <td sec:authorize="hasAuthority('ADMIN')"  th:text="${lost.title}"><strong></strong></td>
         <td th:text="${lost.desc}"></td>
 
 
-        <td th:text="${lost.createdAt}"></td>
+        <td  th:text="${lost.createdAt}"></td>
         <td th:text="${lost.itemStatus}"></td>
-        <td>
-          <span th:each="user:${lost.users}">
-            <p th:text="${user.firstName}"></p>
-          </span>
-        </td>
-       <!-- <td>
-          <span th:each="cat:${lost.lostCategories}">
-            <p th:text="${cat.categoryName}"></p>
-          </span>
-        </td>-->
-        <!-- th:block rather than unneeded div -->
 
-        <td sec:authorize="hasAuthority('ADMIN')" th:switch="${lost.itemStatus}">
-            <span th:case="'lost'" >
-               <a th:href="@{/found/{id}(id=${lost.id})}" name="losts" >found</a>
+        <th:block sec:authorize="hasAuthority('ADMIN')" >
+
+            <td th:switch="${lost.itemStatus}">
+            <span th:case="'lost'">
+               <a  th:href="@{/found/{id}(id=${lost.id})}" name="losts" >found</a>
             </span>
             <span th:case="'found'" >
-              <a th:href="@{/found/{id}(id=${lost.id})}" name="founds">lost</a>
+              <a  th:href="@{/found/{id}(id=${lost.id})}" name="founds">lost</a>
             </span>
         </td>
-        <td><a th:href="@{/delete/{id}(id=${lost.id})}">delete</a></td>
-    </tr>
+        </th:block>
+            <td><a  sec:authorize="hasAuthority('ADMIN')" th:href="@{/delete/{id}(id=${lost.id})}">delete</a></td>
     </tbody>
 </table>
 <hr class="colorgraph">
