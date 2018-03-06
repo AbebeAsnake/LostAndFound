@@ -5,6 +5,7 @@ import me.abebe.demo.model.AppUser;
 import me.abebe.demo.repo.AppUserRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -23,32 +24,22 @@ public class SSUserDetailsService implements UserDetailsService {
     }
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        try {
-            Set <GrantedAuthority> userAuthorities = new HashSet<>();
-            AppUser user = userRepo.findAppUserByUsername(username);
-            if (user == null) {
-                throw new UsernameNotFoundException("user not found");
-            }
-            System.out.println(user);
-            return new org.springframework.security.core.userdetails.User(
-                    user.getUsername(),
-                    user.getPassword(),
-                    getAuthorities(user));
-        } catch (Exception e) {
-            throw new UsernameNotFoundException("user not found");
-
-        }
-
-    }
-    private Set<GrantedAuthority> getAuthorities (AppUser user){
-        Set<GrantedAuthority> authorities
-                = new HashSet<GrantedAuthority>();
-        for (AppRole role : user.getRoles()) {
-            GrantedAuthority grantedAuthority
-                    = new SimpleGrantedAuthority(role.getRoleName());
-            authorities.add(grantedAuthority);
-        }
-        return authorities;
+        Set <GrantedAuthority> userAuthorities = new HashSet<>();
+        AppUser thisUser = userRepo.findAppUserByUsername(username);
+        if(thisUser==null)
+            throw new UsernameNotFoundException("Invalid username or password");
+        return new User(thisUser.getUsername(),thisUser.getPassword(),grantedAuthorities(thisUser));
     }
 
+    public Set <GrantedAuthority> grantedAuthorities(AppUser user)
+    {
+        Set <GrantedAuthority> userAuthorities = new HashSet<>();
+        for(AppRole eachRole: user.getRoles())
+        {
+            userAuthorities.add(new SimpleGrantedAuthority(eachRole.getRoleName()));
+        }
+        return userAuthorities;
+    }
 }
+
+

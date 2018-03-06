@@ -9,6 +9,10 @@ import java.util.List;
 public interface LostItemsRepository extends CrudRepository<LostItems , Long> {
    /* List<LostItems> findLostItemsByUsersIn(List<AppUser> users);
     List<LostItems> findByUsers(AppUser users);*/
-   List<LostItems> findByUsers(AppUser users);
+  Iterable<LostItems> findByUsers(AppUser users);
+   Iterable<LostItems> findByLostCategories(String category);
+   Iterable<LostItems> findByTitle(String sitle);
+   Iterable<LostItems> findAllByTitleContaining( String title);
+   Iterable<LostItems> findAllByLostCategories(String category);
 
 }

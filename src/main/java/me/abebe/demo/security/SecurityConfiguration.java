@@ -4,6 +4,7 @@ import me.abebe.demo.repo.AppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -12,6 +13,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration  extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -43,7 +45,8 @@ public class SecurityConfiguration  extends WebSecurityConfigurerAdapter {
             "/search",
             "/css/**",
             "/templates/**",
-            "/js/**"
+            "/js/**",
+            "/listlost"
 
 
 
@@ -56,7 +59,7 @@ public class SecurityConfiguration  extends WebSecurityConfigurerAdapter {
 //                .permitall: dont need access pages everyone one can acees this route example:register
                 .antMatchers(PUBLIC_MATCHERS).permitAll()
 //                .access("hasAuthority('ROLE_USER') or hasAuthority('ROLE_ADMIN')")
-                .antMatchers("/admin","/additems","/listlost").access("hasAuthority('USER')")
+                .antMatchers("/admin","/additems","/myitems").access("hasAuthority('USER') or hasAuthority('ADMIN')" )
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -91,10 +94,7 @@ public class SecurityConfiguration  extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth)
             throws Exception{
-        auth.inMemoryAuthentication().
-                withUser("user").password("password").authorities("USER").
-                and().
-                withUser("dave").password("begreat").authorities("ADMIN");
+
 
 //        Database Authentication must come after in memory authentication
         auth

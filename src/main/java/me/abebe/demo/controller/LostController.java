@@ -13,10 +13,15 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Controller
 public class LostController {
@@ -30,26 +35,57 @@ public class LostController {
 
     @Autowired
     LostItemsRepository lostItemsRepository;
-@RequestMapping("/found")
-public String dound(@ModelAttribute("losts") LostItems lost ,HttpServletRequest request , Model model){
-    String found = request.getParameter("foundid");
-//    model.addAttribute("losts",lostItemsRepository.findOne(new Long(request.getParameter("foundid"))));
-    //lost.setItemStatus(lostItemsRepository.findOne(new Long(request.getParameter("found"))));
-    lostItemsRepository.save(lost);
-    return "redirect:/listlost";
+
+@GetMapping("/found/{id}")
+public String editLost(@PathVariable("id") long id, Model model, Authentication auth) {
+    AppUser user = userRepository.findAppUserByUsername(auth.getName());
+    LostItems lost = lostItemsRepository.findOne(new Long(id));
+String status = lost.getItemStatus();
+if(status.equalsIgnoreCase("found")){
+    lost.setItemStatus("lost");
 }
+else
+    lost.setItemStatus("found");
+lostItemsRepository.save(lost);
+return "redirect:/listlost";
+
+}
+
+    @GetMapping("/delete/{id}")
+    public String deleteLost(@PathVariable("id") long id, Model model, Authentication auth) {
+        LostItems lost = lostItemsRepository.findOne(new Long(id));
+        lostItemsRepository.delete(lost);
+        return "redirect:/listlost";
+
+    }
+
     @GetMapping("/listlost")
     public String listlost(Model model, Authentication auth){
         model.addAttribute("losts", lostItemsRepository.findAll());
-        model.addAttribute("users", userRepository.findAppUserByUsername(auth.getName()));
+
+
+        //model.addAttribute("users", userRepository.findAppUserByUsername(auth.getName()));
+
         model.addAttribute("category", lostCategoryRepository.findAll());
         return "lostitems";
+    }
+
+    @GetMapping("/myitems")
+    public String lisMyItems(Model model, Authentication auth, HttpServletRequest request){
+        AppUser currentUser =  userRepository.findAppUserByUsername(auth.getName());
+    Iterable<LostItems> losts = lostItemsRepository.findByUsers(currentUser);
+    model.addAttribute("losts", losts);
+        model.addAttribute("users", userRepository.findAppUserByUsername(auth.getName()));
+
+        model.addAttribute("category", lostCategoryRepository.findAll());
+        return "myitems";
     }
     @GetMapping("/additems")
     public String showForm(Model model){
 
         model.addAttribute("category", lostCategoryRepository.findAll());
         model.addAttribute("losts", new LostItems());
+        model.addAttribute("userss", userRepository.findAll());
 
         return "addlost";
     }
@@ -58,7 +94,9 @@ public String dound(@ModelAttribute("losts") LostItems lost ,HttpServletRequest 
         if(result.hasErrors()){
             return "additems";
                     }
-        lost.setUsers(userRepository.findAppUserByUsername(auth.getName()));
+       String users = request.getParameter("users");
+
+       lost.setUsers(userRepository.findAppUserByUsername(auth.getName()));
         lost.setItemStatus("lost");
         lostItemsRepository.save(lost);
 

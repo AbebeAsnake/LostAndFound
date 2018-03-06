@@ -3,6 +3,7 @@ package me.abebe.demo.model;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
 @Entity
@@ -14,9 +15,10 @@ public class LostItems {
 
     @Column(name = "title")
     private String title;
-
+    @NotNull
    @Column(name = "description")
     private String desc;
+
     private String itemStatus;
 
     @CreationTimestamp

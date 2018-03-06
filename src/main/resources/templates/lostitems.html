@@ -1,53 +1,55 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security4">
-<head>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.tymeleaf.org/thymeleaf-extras-springsecurity4"><head>
     <meta charset="UTF-8"/>
     <title>Title</title>
     <link rel="stylesheet" href="/css/listlost.css" type="text/css"/>
     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css"/>
-
+    <link rel="stylesheet" href="/css/navbar.css" type="text/css"/>
+    <link rel="stylesheet" href="/css/addlost.css" type="text/css"/>
 </head>
+<div th:replace ="base :: navbar"></div>
 <body>
+<hr class="colorgraph">
+
 <table>
     <thead>
     <tr>
-        <th>Title</th>
+        <th sec:authorize="hasAuthority('ADMIN')" >Title</th>
         <th>Description</th>
 
         <th>Date reported</th>
 
-        <th>status</th>
-        <th>repoted by</th>
-        <th>Category</th>
-        <th></th>
+        <th sec:authorize="hasAuthority('ADMIN')">status</th>
+        <th sec:authorize="hasAuthority('ADMIN')">repoted by</th>
+        <th sec:authorize="isAuthenticated()">Category</th>
+        <th ></th>
+        <th sec:authorize="hasAuthority('ADMIN')"></th>
     </tr>
     </thead>
     <tbody th:each="lost : ${losts}">
     <tr >
-        <input type="hidden" th:text="${lost.id}"/>
-        <td th:text="${lost.title}"><strong></strong></td>
+
+        <td sec:authorize="hasAuthority('ADMIN')"  th:text="${lost.title}"><strong></strong></td>
         <td th:text="${lost.desc}"></td>
 
 
-        <td th:text="${lost.createdAt}"></td>
+        <td  th:text="${lost.createdAt}"></td>
         <td th:text="${lost.itemStatus}"></td>
-        <td>
-          <span th:each="user:${lost.users}">
-            <p th:text="${user.firstName}"></p>
-          </span>
+
+        <th:block sec:authorize="hasAuthority('ADMIN')" >
+
+            <td th:switch="${lost.itemStatus}">
+            <span th:case="'lost'">
+               <a  th:href="@{/found/{id}(id=${lost.id})}" name="losts" >found</a>
+            </span>
+            <span th:case="'found'" >
+              <a  th:href="@{/found/{id}(id=${lost.id})}" name="founds">lost</a>
+            </span>
         </td>
-        <td>
-          <span th:each="cat:${lost.lostCategories}">
-            <p th:text="${cat.categoryName}"></p>
-          </span>
-        </td>
-        <td> <form th:action="@{/found}" th:object="${found}" method="post">
-
-            <input type="submit" name="foundid" value="Found"></form></td>
-    </tr>
-
-
+        </th:block>
+            <td><a  sec:authorize="hasAuthority('ADMIN')" th:href="@{/delete/{id}(id=${lost.id})}">delete</a></td>
     </tbody>
 </table>
+<hr class="colorgraph">
 </body>
 </html>

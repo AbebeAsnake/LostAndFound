@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/navbar.css" type="text/css"/>
+</head>
+<body>
+<div th:fragment="navbar">
+<nav id="navigationBar">
+    <ul>
+        <li>
+            <a th:href="@{/additems}" class="link">register lost Items</a>
+        </li>
+        <li>
+            <a th:href="@{/listlost}" class="link">List of items</a>
+        </li>
+        <li>
+            <a th:href="@{/search}" class="link">Search</a>
+        </li>
+        <li>
+            <a th:href="@{/myitems}" class="link">my Items</a>
+        </li>
+
+        <li class="nav-item">
+            <a th:href="@{/logout?logout}" class="nav-link js-scroll-trigger" sec:authorize="isAuthenticated()">Log Out</a>
+        </li>
+    </ul>
+</nav>
+</div>
+</body>
+</html>

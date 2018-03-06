@@ -1,8 +1,10 @@
 package me.abebe.demo.model;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
@@ -13,22 +15,22 @@ public class AppUser {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-
+    @NotNull
     @Column(name = "first_name")
     private String firstName;
-
+    @NotNull
     @Column(name ="last_name")
     private String lastName;
-
+    @Email
     @Column(name = "email")
     private String email;
 
     @Column(name = "image")
     private String image;
-
+    @NotNull
     @Column(name ="password")
     private String password;
-
+    @NotNull
     @Column(name = "username")
     private String username;
 
