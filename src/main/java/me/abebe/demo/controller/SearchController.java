@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 @Controller
 public class SearchController {
@@ -40,7 +39,7 @@ public class SearchController {
 //        Expecting multiple parameters or else will throw No parameter available Need to pass as many as are in constructor in Entity.
         Iterable<LostItems> category = lostItemsRepository.findAllByLostCategories(searchOption);
         if(searchItems!= null){
-    model.addAttribute("itemserach",lostItemsRepository.findAllByTitleContaining(searchItems));
+    model.addAttribute("itemserach",lostItemsRepository.findAllByTitleContainingOrDescrContaining(searchItems,searchItems));
 }
 else if(searchOption !=null) {
     model.addAttribute("searchoptions", category);

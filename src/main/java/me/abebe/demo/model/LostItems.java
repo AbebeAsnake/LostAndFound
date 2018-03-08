@@ -17,7 +17,7 @@ public class LostItems {
     private String title;
     @NotNull
    @Column(name = "description")
-    private String desc;
+    private String descr;
 
     private String itemStatus;
 
@@ -38,7 +38,7 @@ public class LostItems {
 
     public LostItems(String title, String desc, String image, String itemStatus, Timestamp createdAt) {
         this.title = title;
-        this.desc = desc;
+        this.descr = desc;
         this.image = image;
         this.itemStatus = itemStatus;
         this.createdAt = createdAt;
@@ -48,7 +48,7 @@ public class LostItems {
 
     public LostItems(String title, String desc, String image, String itemStatus, Timestamp createdAt, AppUser users, LostCategory lostCategories) {
         this.title = title;
-        this.desc = desc;
+        this.descr = desc;
         this.image = image;
         this.itemStatus = itemStatus;
         this.createdAt = createdAt;
@@ -66,7 +66,7 @@ public class LostItems {
     public String toString() {
         return "LostItems{" +
                 ", title='" + title + '\'' +
-                ", desc='" + desc + '\'' +
+                ", desc='" + descr + '\'' +
                 ", createdAt=" + createdAt +
                 ", users=" + users +
                 '}';
@@ -91,11 +91,11 @@ public class LostItems {
     }
 
     public String getDesc() {
-        return desc;
+        return descr;
     }
 
     public void setDesc(String desc) {
-        this.desc = desc;
+        this.descr = desc;
     }
 
     public Timestamp getCreatedAt() {

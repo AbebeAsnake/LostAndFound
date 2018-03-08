@@ -74,7 +74,7 @@ public class DataLoader implements CommandLineRunner {
         LostItems lostItems1 = new LostItems();
         lostItems1.setTitle("jacket");
         lostItems1.setDesc("red color");
-        lostItems1.setImage("image");
+        lostItems1.setImage("http://www.cheatsheet.com/wp-content/uploads/2015/11/Men-Clothing-in-Fashion-Store.jpg");
         lostItems1.setItemStatus("lost");
 
         lostItems1.setLostCategories(category2);
@@ -90,7 +90,7 @@ public class DataLoader implements CommandLineRunner {
         LostItems lostItems2 = new LostItems();
         lostItems2.setTitle("fluffy");
         lostItems2.setDesc("brown");
-        lostItems2.setImage("image");
+        lostItems2.setImage("http://www.loc8tor.com/media/pet-site-home-hero.jpg");
         lostItems2.setItemStatus("lost");
 
         lostItems2.setLostCategories(category2);
@@ -106,7 +106,7 @@ public class DataLoader implements CommandLineRunner {
          LostItems lostItems3 = new LostItems();
         lostItems3.setTitle("other thing");
         lostItems3.setDesc("unknown color");
-        lostItems3.setImage("image");
+        lostItems3.setImage("http://genosplace.com/images/Other%20Stuff.png");
         lostItems3.setItemStatus("lost");
 
         lostItems3.setLostCategories(category3);

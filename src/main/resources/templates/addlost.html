@@ -41,8 +41,13 @@
                 <div class="form-group">
                     <input type="text" name="image" id="image" th:field="*{image}" class="form-control input-lg" placeholder="Image" tabindex="3">
                 </div>
-
-
+<div sec:authorize="hasAuthority('ADMIN')">
+    <!--<div class="form-group">
+        <select th:field="*{users}" name="us">
+            <option th:each="use:${userss}" th:value="${use.id}" th:text="${use.username}" th:selected="*{users}"></option>
+        </select>
+    </div>-->
+<input type="checkbox" name="unknownuser" value="anonymous"/>register for anonymous user</div>
 
                 <hr class="colorgraph">
                 <div class="row">

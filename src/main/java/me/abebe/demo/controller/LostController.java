@@ -18,10 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @Controller
 public class LostController {
@@ -61,7 +57,7 @@ return "redirect:/listlost";
 
     @GetMapping("/listlost")
     public String listlost(Model model, Authentication auth){
-        model.addAttribute("losts", lostItemsRepository.findAll());
+        model.addAttribute("losts", lostItemsRepository.findByItemStatus("lost"));
 
 
         //model.addAttribute("users", userRepository.findAppUserByUsername(auth.getName()));
@@ -73,7 +69,7 @@ return "redirect:/listlost";
     @GetMapping("/myitems")
     public String lisMyItems(Model model, Authentication auth, HttpServletRequest request){
         AppUser currentUser =  userRepository.findAppUserByUsername(auth.getName());
-    Iterable<LostItems> losts = lostItemsRepository.findByUsers(currentUser);
+    Iterable<LostItems> losts = lostItemsRepository.findByUsersAndItemStatus(currentUser,"found");
     model.addAttribute("losts", losts);
         model.addAttribute("users", userRepository.findAppUserByUsername(auth.getName()));
 
@@ -94,12 +90,26 @@ return "redirect:/listlost";
         if(result.hasErrors()){
             return "additems";
                     }
-       String users = request.getParameter("users");
 
-       lost.setUsers(userRepository.findAppUserByUsername(auth.getName()));
-        lost.setItemStatus("lost");
-        lostItemsRepository.save(lost);
+       String anonymous = request.getParameter("unknownuser");
+        if(anonymous != null){
+            lost.setItemStatus("lost");
+            lostItemsRepository.save(lost);
+        }
+        else {
+            String users = request.getParameter("us");
+           String img = request.getParameter("image");
 
+            lost.setUsers(userRepository.findAppUserByUsername(auth.getName()));
+            if(img.equals("")){
+                lost.setImage("https://www.vetmed.wisc.edu/wp-content/uploads/2016/10/default.jpg");
+            }
+           /* if(!users.equals("")){
+                lost.setUsers();
+            }*/
+            lost.setItemStatus("lost");
+            lostItemsRepository.save(lost);
+        }
         return "redirect:/listlost";
 
     }
